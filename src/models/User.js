@@ -1,31 +1,35 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema(
+  {
     username: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     subscriptionStatus: {
-        type: String,
-        required: true,
-        enum: ['trial', 'premium'], // केवल ये दो वैल्यूज ही अलाउड होंगी
-        default: 'trial',
+      type: String,
+      required: true,
+      enum: ["trial", "premium"], // ONLY THESE TWO VALUES ARE ALLOWED
+      default: "trial",
     },
-    scanResults: [ // भविष्य के JSON रिजल्ट्स के लिए एरे
-        {
-            scanId: String,
-            timestamp: {
-                type: Date,
-                default: Date.now,
-            },
-            resultData: mongoose.Schema.Types.Mixed, // JSON डेटा स्टोर करने के लिए
+    scanResults: [
+      // ARRAY TO STORE FUTURE SCAN RESULTS
+      {
+        scanId: String,
+        timestamp: {
+          type: Date,
+          default: Date.now,
         },
+        resultData: mongoose.Schema.Types.Mixed, // STORES JSON RESULT DATA
+      },
     ],
-}, {
-    timestamps: true, // CreatedAt और UpdatedAt फ़ील्ड्स ऑटोमैटिकली जोड़ देगा
-});
+  },
+  {
+    timestamps: true, // AUTOMATICALLY ADDS createdAt AND updatedAt FIELDS
+  }
+);
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
